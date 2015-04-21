@@ -160,7 +160,7 @@
 	"nandboot=nand info && nand read $fdt_addr 100000 40000 && " \
 		  "nand read $kernel_addr 140000 1800000 && " \
 		  "booti $kernel_addr - $fdt_addr\0" \
-	"xen=tftpb $fdt_addr system.dtb && fdt addr $fdt_addr && fdt resize && " \
+	"xen=tftpb $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
 		"tftpb 0x80000 Image && " \
 		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && "\
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
