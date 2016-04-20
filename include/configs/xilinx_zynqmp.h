@@ -216,7 +216,11 @@
 		"tftpb 0x80000 Image && " \
 		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && "\
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
-	"xenboot=xen\0" \
+	"xensd=fatload mmc 0:1 $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
+		"fatload mmc 0:1 0x80000 Image && " \
+		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && " \
+		"fatload mmc 0:1 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
+	"xenboot=xensd\0" \
 	"jtagboot=tftpboot 10000000 image.ub && bootm\0" \
 	"nosmp=setenv bootargs $bootargs maxcpus=1\0" \
 	"nfsroot=setenv bootargs $bootargs root=/dev/nfs nfsroot=$serverip:/mnt/sata,tcp ip=$ipaddr:$serverip:$serverip:255.255.255.0:zynqmp:eth0:off rw\0" \
