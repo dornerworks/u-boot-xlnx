@@ -46,6 +46,10 @@ static int do_timer(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	if (argc != 2)
 		return CMD_RET_USAGE;
 
+	if (!strcmp(argv[1], "ticks")) {
+		printf("Timer ticks: %u\nTimer frequency: %u\n", get_ticks(), get_tbclk());
+	}
+
 	if (!strcmp(argv[1], "start"))
 		start = get_timer(0);
 

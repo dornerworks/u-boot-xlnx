@@ -206,9 +206,9 @@
 	"qspiboot=sf probe 0 0 0 && sf read $fdt_addr $fdt_offset $fdt_size && " \
 		  "sf read $kernel_addr $kernel_offset $kernel_size && " \
 		  "booti $kernel_addr - $fdt_addr\0" \
-	"sdboot=mmc dev $sdbootdev && mmcinfo && load mmc $sdbootdev:$partid $fdt_addr system.dtb && " \
+	"sdboot=timer ticks && mmc dev $sdbootdev && mmcinfo && load mmc $sdbootdev:$partid $fdt_addr system.dtb && " \
 		"load mmc $sdbootdev:$partid $kernel_addr Image && " \
-		"booti $kernel_addr - $fdt_addr\0" \
+		"timer ticks && booti $kernel_addr - $fdt_addr\0" \
 	"nandboot=nand info && nand read $fdt_addr $fdt_offset $fdt_size && " \
 		  "nand read $kernel_addr $kernel_offset $kernel_size && " \
 		  "booti $kernel_addr - $fdt_addr\0" \
@@ -216,10 +216,10 @@
 		"tftpb 0x80000 Image && " \
 		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && "\
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
-	"xensd=fatload mmc 0:1 $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
+	"xensd=timer ticks && fatload mmc 0:1 $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
 		"fatload mmc 0:1 0x80000 Image && " \
 		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && " \
-		"fatload mmc 0:1 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
+		"fatload mmc 0:1 6000000 xen.ub && timer ticks && bootm 6000000 - $fdt_addr\0" \
 	"xenboot=xensd\0" \
 	"jtagboot=tftpboot 10000000 image.ub && bootm\0" \
 	"nosmp=setenv bootargs $bootargs maxcpus=1\0" \
@@ -233,7 +233,8 @@
 
 #define CONFIG_PREBOOT		"run bootargs; run sata_root; run setup"
 #define CONFIG_BOOTCOMMAND	"run $xenboot"
-#define CONFIG_BOOTDELAY	5
+//#define CONFIG_BOOTCOMMAND	"run sdroot; run sdboot" // for running linux without xen
+#define CONFIG_BOOTDELAY	0
 
 #define CONFIG_BOARD_LATE_INIT
 
