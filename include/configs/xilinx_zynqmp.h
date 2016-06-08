@@ -250,6 +250,11 @@
 		"run xen_prepare_dt_qemu && " \
 		"tftpb 6000000 xen.ub && tftpb 0x1000000 image.ub && " \
 		"bootm 6000000 0x1000000 $fdt_addr\0" \
+	"xen=tftpb $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
+		"tftpb 0x80000 Image && " \
+		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && "\
+		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
+	"xenboot=xen\0" \
 	"jtagboot=tftpboot 80000 Image && tftpboot $fdt_addr system.dtb && " \
 		 "tftpboot 6000000 rootfs.cpio.ub && booti 80000 6000000 $fdt_addr\0" \
 	"nosmp=setenv bootargs $bootargs maxcpus=1\0" \
@@ -267,7 +272,9 @@
 #endif
 
 #define CONFIG_PREBOOT		"run setup"
-#define CONFIG_BOOTCOMMAND	"run $modeboot"
+
+#define CONFIG_BOOTCOMMAND	"run $xenboot"
+#define CONFIG_BOOTDELAY	3
 
 #define CONFIG_BOARD_LATE_INIT
 
