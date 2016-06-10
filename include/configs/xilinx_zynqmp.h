@@ -207,7 +207,7 @@
 		  "booti $kernel_addr - $fdt_addr\0" \
 	"xen=tftpb $fdt_addr xen.dtb && fdt addr $fdt_addr && fdt resize && " \
 		"tftpb 0x80000 Image && " \
-		"fdt set /chosen/dom0 reg <0x80000 0x$filesize> && "\
+		"fdt set /chosen/dom0 reg <0x0 0x80000 0x$filesize> && "\
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
 	"xenboot=xen\0" \
 	"jtagboot=tftpboot 80000 Image && tftpboot $fdt_addr system.dtb && " \
