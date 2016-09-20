@@ -226,7 +226,8 @@
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
 	"xenboot=xen\0" \
 	"jtagboot=tftpboot 10000000 image.ub && bootm\0"
-
+#endif
+	
 #define CONFIG_BOOTARGS		"setenv bootargs console=ttyPS0,${baudrate} " \
 				"earlycon=cdns,mmio,0xff000000,${baudrate}n8"
 #define CONFIG_PREBOOT		"run bootargs; run sata_root"
