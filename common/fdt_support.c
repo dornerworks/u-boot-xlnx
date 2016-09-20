@@ -399,6 +399,7 @@ static int fdt_pack_reg(const void *fdt, void *buf, u64 *address, u64 *size,
 #endif
 int fdt_fixup_memory_banks(void *blob, u64 start[], u64 size[], int banks)
 {
+#if 0
 	int err, nodeoffset;
 	int len;
 	u8 tmp[MEMORY_BANKS_MAX * 16]; /* Up to 64-bit address + 64-bit size */
@@ -437,6 +438,7 @@ int fdt_fixup_memory_banks(void *blob, u64 start[], u64 size[], int banks)
 				"reg", fdt_strerror(err));
 		return err;
 	}
+#endif
 	return 0;
 }
 
