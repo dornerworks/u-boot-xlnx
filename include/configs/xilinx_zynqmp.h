@@ -225,14 +225,23 @@
 		"fdt set /chosen/dom0 reg <0x0 0x80000 0x$filesize> && "\
 		"tftpb 6000000 xen.ub && bootm 6000000 - $fdt_addr\0" \
 	"xenboot=xen\0" \
-	"jtagboot=tftpboot 10000000 image.ub && bootm\0"
+	"jtagboot=tftpboot 80000 Image && tftpboot $fdt_addr system.dtb && " \
+		 "tftpboot 6000000 rootfs.cpio.ub && booti 80000 6000000 $fdt_addr\0" \
+	"nosmp=setenv bootargs $bootargs maxcpus=1\0" \
+	"nfsroot=setenv bootargs $bootargs root=/dev/nfs nfsroot=$serverip:/mnt/sata,tcp ip=$ipaddr:$serverip:$serverip:255.255.255.0:zynqmp:eth0:off rw\0" \
+	"sdroot=setenv bootargs $bootargs root=/dev/mmcblk0p2 rw rootwait\0" \
+	"sdroot1=setenv bootargs $bootargs root=/dev/mmcblk1p2 rw rootwait\0" \
+	"android=setenv bootargs $bootargs init=/init androidboot.selinux=disabled androidboot.hardware=$board\0" \
+	"android_debug=run android && setenv bootargs $bootargs video=DP-1:1024x768@60 drm.debug=0xf\0" \
+	"usbhostboot=usb start && load usb 0 $fdt_addr system.dtb && " \
+		     "load usb 0 $kernel_addr Image && " \
+		     "booti $kernel_addr - $fdt_addr\0" \
+	DFU_ALT_INFO
 #endif
-	
-#define CONFIG_BOOTARGS		"setenv bootargs console=ttyPS0,${baudrate} " \
-				"earlycon=cdns,mmio,0xff000000,${baudrate}n8"
-#define CONFIG_PREBOOT		"run bootargs; run sata_root"
+
+#define CONFIG_PREBOOT		"run setup"
 #define CONFIG_BOOTCOMMAND	"run $xenboot"
-#define CONFIG_BOOTDELAY	5
+#define CONFIG_BOOTDELAY	3
 
 #define CONFIG_BOARD_LATE_INIT
 
