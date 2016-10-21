@@ -17,6 +17,7 @@
 #include <usb.h>
 #include <dwc3-uboot.h>
 #include <zynqmppl.h>
+#include <i2c.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
