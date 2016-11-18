@@ -235,11 +235,10 @@
 	DFU_ALT_INFO
 #endif
 
-#define CONFIG_BOOTARGS		"setenv bootargs console=ttyPS0,${baudrate} " \
-				"earlycon=cdns,mmio,0xff000000,${baudrate}n8"
-#define CONFIG_PREBOOT		"run bootargs; run sata_root"
+#define CONFIG_PREBOOT		"run setup"
+
 #define CONFIG_BOOTCOMMAND	"run $xenboot"
-#define CONFIG_BOOTDELAY	5
+#define CONFIG_BOOTDELAY	3
 
 #define CONFIG_BOARD_LATE_INIT
 
