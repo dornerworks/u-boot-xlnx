@@ -281,11 +281,13 @@
 
 #define CONFIG_BOARD_LATE_INIT
 
-/* Do not preserve environment */
-#if !defined(CONFIG_ENV_IS_IN_FAT)
-#define CONFIG_ENV_IS_NOWHERE		1
-#endif
-#define CONFIG_ENV_SIZE			0x8000
+/* Preserve U-Boot environment on on 1st SD card partition */
+#define CONFIG_ENV_IS_IN_FAT
+#define CONFIG_FAT_WRITE
+#define FAT_ENV_INTERFACE	"mmc"
+#define FAT_ENV_DEVICE_AND_PART	"0:1"
+#define FAT_ENV_FILE		"uboot.env"
+#define CONFIG_ENV_SIZE		0x4000
 
 /* Monitor Command Prompt */
 /* Console I/O Buffer Size */
